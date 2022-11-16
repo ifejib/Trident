@@ -1,7 +1,7 @@
 step "deploy-trident-web" {
     name = "Deploy trident website"
     properties = {
-        Octopus.Action.MaxParallelism = "1"
+        Octopus.Action.MaxParallelism = "2"
         Octopus.Action.TargetRoles = "trident-web"
     }
 
