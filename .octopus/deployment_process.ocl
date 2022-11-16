@@ -53,7 +53,7 @@ step "deploy-trident-web" {
             Octopus.Action.Script.ScriptBody = <<-EOT
                 $machineName = $OctopusParameters["Octopus.Machine.Name"]
                 
-                Write-Host "Adding $machineName back to the Load Balancer."
+                Write-Host "Adding $machineName back to the Load Balancers."
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "PowerShell"
