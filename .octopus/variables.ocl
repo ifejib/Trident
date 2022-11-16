@@ -1,0 +1,42 @@
+variable "ConnectionStrings:Database" {
+    value "Server=#{Project.Database.Server.Name};Database=#{Project.Database.Name};User ID=#{Project.Database.User.Name};Password=#{Project.Database.User.Password};" {}
+}
+
+variable "Project.Database.Server.Name" {
+    value "DevelopmentServer" {
+        environment = ["development"]
+    }
+
+    value "QAServer" {
+        environment = ["test"]
+    }
+
+    value "StagingServer" {
+        environment = ["staging"]
+    }
+
+    value "ProductionServer" {
+        environment = ["production"]
+    }
+}
+
+variable "Project.Database.User.Name" {
+    value "DevelopmentUser" {
+        environment = ["development"]
+    }
+
+    value "ProductionUser" {
+        description = ""
+        environment = ["production"]
+    }
+
+    value "QAUser" {
+        description = ""
+        environment = ["test"]
+    }
+
+    value "StagingUser" {
+        description = ""
+        environment = ["staging"]
+    }
+}
