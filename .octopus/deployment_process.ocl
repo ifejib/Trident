@@ -35,7 +35,7 @@ step "generate-database-delta-report" {
                 $packagePath = $OctopusParameters["Octopus.Action.Package[Trident.Database].ExtractedPath"]
                 $connectionString = $OctopusParameters["Project.Connection.String"]
                 $environmentName = $OctopusParameters["Octopus.Environment.Name"]
-                $reportPath = "C:\DatabaseReports"
+                $reportPath = "C:\DatabaseReports\$environmentsName"
                 
                 cd $packagePath
                 $appToRun = ".\Octopus.Trident.Database.DbUp"
