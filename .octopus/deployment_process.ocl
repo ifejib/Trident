@@ -214,3 +214,16 @@ step "message-on-failure" {
         worker_pool = "default-worker-pool-1"
     }
 }
+
+step "auto-approve-database-delta-script" {
+    name = "Auto-Approve Database Delta Script"
+
+    action {
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Template.Id = "ActionTemplates-24"
+            Octopus.Action.Template.Version = "0"
+        }
+        worker_pool = "default-worker-pool-1"
+    }
+}
