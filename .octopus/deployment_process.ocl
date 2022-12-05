@@ -6,6 +6,11 @@ step "calculate-deployment-mode" {
     }
 
     action {
+        notes = <<-EOT
+                **Always Runs**
+                
+                Determines if the deployment is a deployment, rollback, or a redeployment.
+            EOT
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Template.Id = "ActionTemplates-25"
