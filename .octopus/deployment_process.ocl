@@ -140,7 +140,7 @@ step "approve-database-delta-script" {
 
     action {
         action_type = "Octopus.Manual"
-        excluded_environments = ["staging"]
+        environments = ["staging"]
         notes = "Manual intervention, it will pause the deployment and wait until the DBAs have approved the delta report."
         properties = {
             Octopus.Action.Manual.BlockConcurrentDeployments = "True"
