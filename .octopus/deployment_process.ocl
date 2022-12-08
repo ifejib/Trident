@@ -35,7 +35,7 @@ step "run-octopus-deploy-runbook" {
     condition = "Variable"
     name = "Run Create Trident Data Runbook"
     properties = {
-        Octopus.Step.ConditionVariableExpression = "#{unless Octopus.Deployment.Error}#{Octopus.Action[CalculateDeploymentMode].Output.RunOnDeploy}#{/unless}"
+        Octopus.Step.ConditionVariableExpression = "#{unless Octopus.Deployment.Error}#{Octopus.Action[Calculate Deployment Mode].Output.RunOnDeploy}#{/unless}"
     }
 
     action {
