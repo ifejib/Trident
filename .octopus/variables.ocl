@@ -13,15 +13,6 @@ variable "Octopus.ServiceNow.ChangeRequest.Number" {
     }
 }
 
-variable "Project.Database.Name" {
-    value "Trident" {}
-
-    value "Trident_#{Octopus.Environment.Name}" {
-        description = ""
-        environment = ["development", "test", "staging"]
-    }
-}
-
 variable "Project.Connection.String" {
     value "Server=(localdb)\\MSSQLLocalDB;Integrated Security=true;Database=#{Project.Database.Name}" {}
 }
@@ -40,4 +31,13 @@ variable "Project.Database.ApprovalRequired" {
 
 variable "Project.Database.RunOnDeploy" {
     value "#{Octopus.Action[Calculate Deployment Mode].Output.RunOnDeploy" {}
+}
+
+variable "Project.Database.Name" {
+    value "Trident_#{Retail.Tenant.ShortName}" {}
+
+    value "Trident_#{Octopus.Environment.Name}_#{Retail.Tenant.ShortName}" {
+        description = ""
+        environment = ["development", "test", "staging"]
+    }
 }
