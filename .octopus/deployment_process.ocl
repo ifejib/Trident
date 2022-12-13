@@ -21,6 +21,7 @@ step "enable-maintenance-mode" {
 
     action {
         action_type = "Octopus.Script"
+        notes = "Runs a script that will redirect all traffic to a maintenance page during the deployment. Engineers will need to access the site via IP address or specific host name."
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = "Write-Highlight \"Enable Maintenance Mode.\""
