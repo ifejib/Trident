@@ -16,22 +16,6 @@ step "calculate-deployment-mode" {
     }
 }
 
-step "enable-maintenance-mode" {
-    name = "Enable Maintenance Mode"
-
-    action {
-        action_type = "Octopus.Script"
-        notes = "Runs a script that will redirect all traffic to a maintenance page during the deployment. Engineers will need to access the site via IP address or specific host name."
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = "Write-Highlight \"Enable Maintenance Mode.\""
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "PowerShell"
-        }
-        worker_pool = "default-worker-pool-1"
-    }
-}
-
 step "run-octopus-deploy-runbook" {
     condition = "Variable"
     name = "Run Create Trident Data Runbook"
@@ -217,26 +201,42 @@ step "deploy-trident-web" {
     }
 }
 
-step "verify-trident-application" {
-    name = "Verify Trident Application"
+step "verify-application" {
+    name = "Verify application"
 
     action {
-        action_type = "Octopus.Manual"
-        channels = ["hotfix"]
+        action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.Manual.BlockConcurrentDeployments = "False"
-            Octopus.Action.Manual.Instructions = "Please verify the Trident application"
-            Octopus.Action.Manual.ResponsibleTeamIds = "qa,developers,global/octopus-managers"
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                $randomNumber = Get-Random -Minimum 1 -Maximum 100
+                
+                Write-Host "The random number is $randomNumber.  If it is above 90, this will fail the step."
+                if ($randomNumber -ge 90)
+                {
+                	Write-Host "An error occurred verifying the application."
+                    exit 1
+                }
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
         }
-        worker_pool_variable = ""
+        worker_pool = "default-worker-pool-1"
     }
 }
 
 step "disable-the-maintenance-mode" {
-    name = "Disable the Maintenance Mode"
+    name = "Update Load Balancer"
 
     action {
         action_type = "Octopus.Script"
+        notes = <<-EOT
+                **Always Runs**
+                
+                Runs a script that will direct traffic to the new version of the code.
+                
+                **Please Note**: If the deployment fails, this step will not run and the application will continue to be in maintenance mode. 
+            EOT
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = "Write-Highlight \"Disbake Maintenance Mode\""
